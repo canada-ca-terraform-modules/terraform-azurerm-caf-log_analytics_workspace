@@ -29,7 +29,7 @@ resource "azurerm_log_analytics_solution" "la_solution" {
   location              = var.resource_group.location
   resource_group_name   = var.resource_group.name
   workspace_resource_id = azurerm_log_analytics_workspace.log_analytics.id
-  workspace_name        = azurerm_log_analytics_workspace.name
+  workspace_name        = azurerm_log_analytics_workspace.log_analytics.name
 
   plan {
     product   = each.value.product
@@ -42,7 +42,7 @@ resource "azurerm_log_analytics_datasource_windows_event" "la_datasource_windows
 
   name                = each.key
   resource_group_name = var.resource_group.name
-  workspace_name      = azurerm_log_analytics_workspace.name
+  workspace_name      = azurerm_log_analytics_workspace.log_analytics.name
   event_log_name      = each.value.event_log_name
   event_types         = each.value.event_types
 }
