@@ -1,3 +1,13 @@
+## v1.0.2 (June 2020)
+
+FEATURES: 
+* **new feature:** 
+
+IMPROVEMENTS:
+
+BUGS:
+* Adding support for solutions and windows datasources map
+
 ## v1.0.1 (June 2020)
 
 FEATURES: 

@@ -30,3 +30,14 @@ variable "tags" {
   description = "(Required) tagging for the log analytics workspace"
 }
 
+variable "solution_plan_map" {
+  description = "(Optional) Map structure containing the list of solutions to be enabled."
+  type        = map(any)
+  default     = {}
+}
+
+variable "datasource_windows_event_map" {
+  description = "(Optional) Map structure containing the list of windows datasource events to be enabled."
+  type        = map(any)
+  default     = {}
+}
