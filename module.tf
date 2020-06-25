@@ -1,8 +1,8 @@
 locals {
-  module_tag  = {
+  module_tag = {
     "module" = basename(abspath(path.module))
   }
-  tags = merge(var.tags,local.module_tag)
+  tags                            = merge(var.tags, local.module_tag)
   unique                          = substr(sha1(var.resource_group.id), 0, 8)
   log_analytics_workspace-replace = replace("${var.env}CLD-${var.userDefinedString}", "_", "-")
   log_analytics_workspace-regex   = regex("[0-9A-Za-z-]+", local.log_analytics_workspace-replace)
