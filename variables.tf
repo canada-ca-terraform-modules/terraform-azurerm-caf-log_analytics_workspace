@@ -2,6 +2,12 @@ variable "resource_group" {
   description = "(Required) Resource group object of where the LAW is to be created"
 }
 
+variable "env" {
+  description = "(Required) env value"
+  type        = string
+  default     = ""
+}
+
 variable "userDefinedString" {
   description = "(Required) userDefinedString value"
   type        = string

@@ -25,5 +25,6 @@ module "log_analytics" {
 | tags              | map    | None    | (Required) Map of tags for the deployment.                                                                                  |
 | retention_in_days | number | None    | (Optional) The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730. |
 | sku               | string | None    | (Optional) Default: PerGB2018                                                                                               |
+| env               | string | None    | {Required} env name                                                                                                         |
 | userDefinedString | string | None    | (Required) userDefinedString to be Used.                                                                                    |
 

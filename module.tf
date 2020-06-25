@@ -12,7 +12,6 @@ locals {
   log_analytics_workspace-result          = "${local.log_analytics_workspace-59}-law"
 }
 
-//Can't have a "_" in the name, only "-"
 resource "azurerm_log_analytics_workspace" "log_analytics" {
   name                = local.log_analytics_workspace-result
   location            = var.resource_group.location
