@@ -41,3 +41,9 @@ variable "datasource_windows_event_map" {
   type        = map(any)
   default     = {}
 }
+
+variable "module_depends_on" {
+  description = "List of resources that the module depend on"
+  type        = any
+  default     = null
+}
