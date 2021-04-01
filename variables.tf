@@ -1,5 +1,6 @@
 variable "resource_group" {
   description = "(Required) Resource group object of where the LAW is to be created"
+  type        = any
 }
 
 variable "env" {
@@ -28,6 +29,7 @@ variable "retention_in_days" {
 
 variable "tags" {
   description = "(Required) tagging for the log analytics workspace"
+  type        = map(string)
 }
 
 variable "solution_plan_map" {

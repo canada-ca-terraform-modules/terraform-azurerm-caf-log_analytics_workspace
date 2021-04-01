@@ -6,7 +6,8 @@
   version: '3.7'
   services:
     rover:
-      image: aztfmod/rover:2005.1510
+      image: sscspccloudnuage/rover:2103.2611
+      user: vscode
     
       labels:
         - "caf=Azure CAF"
@@ -17,6 +18,7 @@
         - ..:/tf/caf
         - volume-caf-vscode:/home/vscode
         - ~/.ssh:/tmp/.ssh-localhost:ro
+        - ~/dotfiles:/home/vscode/dotfiles
         - /var/run/docker.sock:/var/run/docker.sock 
    
       # Overrides default command so things don't shut down after the process ends.
