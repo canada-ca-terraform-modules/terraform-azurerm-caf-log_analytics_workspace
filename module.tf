@@ -35,6 +35,8 @@ resource "azurerm_log_analytics_solution" "la_solution" {
     product   = each.value.product
     publisher = each.value.publisher
   }
+
+  tags = var.tags
 }
 
 resource "azurerm_log_analytics_datasource_windows_event" "la_datasource_windows_event" {
