@@ -1,10 +1,16 @@
-# Deploys Azure Monitor Log Analytics   
-Creates the log analytics and monitoring solutions.
+# Deploys Azure Monitor Log Analytics
+
+Creates the Log Analytics Workspace, along with any Log Analytics Solutions
+(`azurerm_log_analytics_solution`) and Windows Event data sources
+(`azurerm_log_analytics_datasource_windows_event`) declared via
+`solution_plan_map` and `datasource_windows_event_map`.
+
+Requires the `azurerm` provider `~> 5.0`.
 
 Reference the module to a specific version (recommended):
 ```hcl
 module "log_analytics" {
-  source            = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-log_analytics_workspace?ref=v1.0.1"
+  source            = "github.com/canada-ca-terraform-modules/terraform-azurerm-caf-log_analytics_workspace?ref=v1.1.0"
   userDefinedString = "${var.group}_${var.project}"
   resource_group    = azurerm_resource_group.Logs-rg
   tags              = var.tags
@@ -35,46 +41,42 @@ module "log_analytics" {
 }
 ```
 
-## Requirements
+### ESLZ module block (`ESLZ/log_analytics_workspace.tf`)
 
-No requirements.
+See [`ESLZ/log_analytics_workspace.tf`](ESLZ/log_analytics_workspace.tf) and
+[`ESLZ/log_analytics_workspace.tfvars`](ESLZ/log_analytics_workspace.tfvars) for the
+map-based (`for_each`) L2 blueprint pattern.
 
-## Providers
+## New optional arguments (azurerm >= 5.0)
 
-| Name | Version |
-|------|---------|
-| azurerm | n/a |
+| Key | Type | Description |
+|---|---|---|
+| `custom_name` | string | Override the auto-generated workspace name (default: `{env4}CLD-{userDefinedString}-{unique}-law`) |
+| `local_authentication_enabled` | bool | Allow local authentication in addition to Microsoft Entra ID. Defaults to `true` (provider default) |
+| `allow_resource_only_permissions` | bool | Allow resource-scoped access without workspace-level permission. Defaults to `true` (provider default) |
+| `daily_quota_gb` | number | Daily ingestion quota in GB. Defaults to `-1` (unlimited, provider default) |
+| `cmk_for_query_forced` | bool | Whether Customer Managed Storage is mandatory for query |
+| `internet_ingestion_access_type` | string | `Enabled` \| `Disabled` \| `SecuredByPerimeter`. Defaults to `Enabled` |
+| `internet_query_access_type` | string | `Enabled` \| `Disabled` \| `SecuredByPerimeter`. Defaults to `Enabled` |
+| `reservation_capacity_in_gb_per_day` | number | Only used when `sku = "CapacityReservation"` |
+| `data_collection_rule_id` | string | ID of the Data Collection Rule to use for this workspace |
+| `immediate_data_purge_on_30_days_enabled` | bool | Remove data immediately after 30 days |
+| `identity` | object | `{ type, identity_ids }` — `identity_ids` required when `type = "UserAssigned"` |
 
-## Modules
+See [`ESLZ/log_analytics_workspace.tfvars`](ESLZ/log_analytics_workspace.tfvars) for full commented examples.
 
-No Modules.
+## Testing
 
-## Resources
+```bash
+terraform fmt -recursive && terraform init -backend=false && terraform validate && terraform test
+```
 
-| Name |
-|------|
-| [azurerm_client_config](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) |
-| [azurerm_log_analytics_datasource_windows_event](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_datasource_windows_event) |
-| [azurerm_log_analytics_solution](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_solution) |
-| [azurerm_log_analytics_workspace](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) |
+## CI
 
-## Inputs
+GitHub Actions workflow at `.github/workflows/terraform-ci.yml` runs fmt, init, validate, test,
+and tflint on every PR. `.github/workflows/release.yml` creates a GitHub release on merge to
+main/master, tagged with the version pinned in `ESLZ/log_analytics_workspace.tf`'s own `?ref=`.
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| resource\_group | (Required) Resource group object of where the LAW is to be created | `any` | n/a | yes |
-| tags | (Required) tagging for the log analytics workspace | `map(string)` | n/a | yes |
-| datasource\_windows\_event\_map | (Optional) Map structure containing the list of windows datasource events to be enabled. | `map(any)` | `{}` | no |
-| env | (Required) env value | `string` | `""` | no |
-| retention\_in\_days | (Optional) The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730. | `string` | `""` | no |
-| sku | (Optional) sku name | `string` | `"PerGB2018"` | no |
-| solution\_plan\_map | (Optional) Map structure containing the list of solutions to be enabled. | `map(any)` | `{}` | no |
-| userDefinedString | (Required) userDefinedString value | `string` | `""` | no |
+<!-- BEGIN_TF_DOCS -->
+<!-- END_TF_DOCS -->
 
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| id | Output the object ID |
-| name | Output the object name |
-| object | Output the full object |
