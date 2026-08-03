@@ -78,5 +78,61 @@ and tflint on every PR. `.github/workflows/release.yml` creates a GitHub release
 main/master, tagged with the version pinned in `ESLZ/log_analytics_workspace.tf`'s own `?ref=`.
 
 <!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 5.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 5.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_log_analytics_datasource_windows_event.la_datasource_windows_event](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_datasource_windows_event) | resource |
+| [azurerm_log_analytics_solution.la_solution](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_solution) | resource |
+| [azurerm_log_analytics_workspace.log_analytics](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/log_analytics_workspace) | resource |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_allow_resource_only_permissions"></a> [allow\_resource\_only\_permissions](#input\_allow\_resource\_only\_permissions) | (Optional, azurerm >= 5.x) Specifies if users accessing data associated with resources they have permission to view are allowed to do so without permission to the workspace. Defaults to true (provider default) when omitted. | `bool` | `null` | no |
+| <a name="input_cmk_for_query_forced"></a> [cmk\_for\_query\_forced](#input\_cmk\_for\_query\_forced) | (Optional, azurerm >= 5.x) Is Customer Managed Storage mandatory for query management? | `bool` | `null` | no |
+| <a name="input_custom_name"></a> [custom\_name](#input\_custom\_name) | (Optional) Override the auto-generated Log Analytics Workspace name (default: {env4}CLD-{userDefinedString}-{unique}-law). | `string` | `null` | no |
+| <a name="input_daily_quota_gb"></a> [daily\_quota\_gb](#input\_daily\_quota\_gb) | (Optional, azurerm >= 5.x) The workspace daily quota for ingestion in GB. Defaults to -1 (unlimited, provider default) when omitted. | `number` | `null` | no |
+| <a name="input_data_collection_rule_id"></a> [data\_collection\_rule\_id](#input\_data\_collection\_rule\_id) | (Optional, azurerm >= 5.x) The ID of the Data Collection Rule to use for this workspace. | `string` | `null` | no |
+| <a name="input_datasource_windows_event_map"></a> [datasource\_windows\_event\_map](#input\_datasource\_windows\_event\_map) | (Optional) Map structure containing the list of windows datasource events to be enabled. | `map(any)` | `{}` | no |
+| <a name="input_env"></a> [env](#input\_env) | (Required) env value | `string` | `""` | no |
+| <a name="input_identity"></a> [identity](#input\_identity) | (Optional, azurerm >= 5.x) An identity block object with a type key (SystemAssigned or UserAssigned) and an optional identity\_ids list, required when type is UserAssigned. | `any` | `null` | no |
+| <a name="input_immediate_data_purge_on_30_days_enabled"></a> [immediate\_data\_purge\_on\_30\_days\_enabled](#input\_immediate\_data\_purge\_on\_30\_days\_enabled) | (Optional, azurerm >= 5.x) Whether to remove the data in the workspace immediately after 30 days. | `bool` | `null` | no |
+| <a name="input_internet_ingestion_access_type"></a> [internet\_ingestion\_access\_type](#input\_internet\_ingestion\_access\_type) | (Optional, azurerm >= 5.x) Controls public network access for ingestion into the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted. | `string` | `null` | no |
+| <a name="input_internet_query_access_type"></a> [internet\_query\_access\_type](#input\_internet\_query\_access\_type) | (Optional, azurerm >= 5.x) Controls public network access for querying the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted. | `string` | `null` | no |
+| <a name="input_local_authentication_enabled"></a> [local\_authentication\_enabled](#input\_local\_authentication\_enabled) | (Optional, azurerm >= 5.x) Specifies if local authentication methods are allowed in addition to Microsoft Entra ID. Defaults to true (provider default) when omitted. | `bool` | `null` | no |
+| <a name="input_reservation_capacity_in_gb_per_day"></a> [reservation\_capacity\_in\_gb\_per\_day](#input\_reservation\_capacity\_in\_gb\_per\_day) | (Optional, azurerm >= 5.x) The capacity reservation level in GB for this workspace. Only used when sku = CapacityReservation. | `number` | `null` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | (Required) Resource group object of where the LAW is to be created | `any` | n/a | yes |
+| <a name="input_retention_in_days"></a> [retention\_in\_days](#input\_retention\_in\_days) | (Optional) The workspace data retention in days. Possible values are either 7 (Free Tier only) or range between 30 and 730. | `string` | `""` | no |
+| <a name="input_sku"></a> [sku](#input\_sku) | (Optional) sku name | `string` | `"PerGB2018"` | no |
+| <a name="input_solution_plan_map"></a> [solution\_plan\_map](#input\_solution\_plan\_map) | (Optional) Map structure containing the list of solutions to be enabled. | `map(any)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | (Required) tagging for the log analytics workspace | `map(string)` | n/a | yes |
+| <a name="input_userDefinedString"></a> [userDefinedString](#input\_userDefinedString) | (Required) userDefinedString value | `string` | `""` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_id"></a> [id](#output\_id) | Output the object ID |
+| <a name="output_name"></a> [name](#output\_name) | Output the object name |
+| <a name="output_object"></a> [object](#output\_object) | Output the full object |
 <!-- END_TF_DOCS -->
 
