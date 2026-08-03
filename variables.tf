@@ -80,7 +80,7 @@ variable "internet_ingestion_access_type" {
   default     = null
 
   validation {
-    condition     = var.internet_ingestion_access_type == null || contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_ingestion_access_type)
+    condition     = var.internet_ingestion_access_type == null ? true : contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_ingestion_access_type)
     error_message = "internet_ingestion_access_type must be one of: Enabled, Disabled, SecuredByPerimeter."
   }
 }
@@ -91,7 +91,7 @@ variable "internet_query_access_type" {
   default     = null
 
   validation {
-    condition     = var.internet_query_access_type == null || contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_query_access_type)
+    condition     = var.internet_query_access_type == null ? true : contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_query_access_type)
     error_message = "internet_query_access_type must be one of: Enabled, Disabled, SecuredByPerimeter."
   }
 }
@@ -123,12 +123,12 @@ variable "identity" {
   default = null
 
   validation {
-    condition     = var.identity == null || contains(["SystemAssigned", "UserAssigned"], var.identity.type)
+    condition     = var.identity == null ? true : contains(["SystemAssigned", "UserAssigned"], var.identity.type)
     error_message = "identity.type must be one of: SystemAssigned, UserAssigned."
   }
 
   validation {
-    condition     = var.identity == null || var.identity.type != "UserAssigned" || (var.identity.identity_ids != null && length(var.identity.identity_ids) > 0)
+    condition     = var.identity == null ? true : (var.identity.type != "UserAssigned" ? true : (var.identity.identity_ids != null && length(var.identity.identity_ids) > 0))
     error_message = "identity.identity_ids must be provided and non-empty when identity.type is UserAssigned."
   }
 }

@@ -222,3 +222,12 @@ run "user_assigned_identity" {
     error_message = "identity.type must be UserAssigned"
   }
 }
+
+run "workspace_id_output" {
+  command = apply
+
+  assert {
+    condition     = output.workspace_id == azurerm_log_analytics_workspace.log_analytics.workspace_id
+    error_message = "workspace_id output must equal the resource workspace_id attribute"
+  }
+}
