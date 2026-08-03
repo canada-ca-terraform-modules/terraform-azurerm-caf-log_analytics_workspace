@@ -78,12 +78,22 @@ variable "internet_ingestion_access_type" {
   description = "(Optional, azurerm >= 5.x) Controls public network access for ingestion into the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.internet_ingestion_access_type == null || contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_ingestion_access_type)
+    error_message = "internet_ingestion_access_type must be one of: Enabled, Disabled, SecuredByPerimeter."
+  }
 }
 
 variable "internet_query_access_type" {
   description = "(Optional, azurerm >= 5.x) Controls public network access for querying the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted."
   type        = string
   default     = null
+
+  validation {
+    condition     = var.internet_query_access_type == null || contains(["Enabled", "Disabled", "SecuredByPerimeter"], var.internet_query_access_type)
+    error_message = "internet_query_access_type must be one of: Enabled, Disabled, SecuredByPerimeter."
+  }
 }
 
 variable "reservation_capacity_in_gb_per_day" {
@@ -106,6 +116,19 @@ variable "immediate_data_purge_on_30_days_enabled" {
 
 variable "identity" {
   description = "(Optional, azurerm >= 5.x) An identity block object with a type key (SystemAssigned or UserAssigned) and an optional identity_ids list, required when type is UserAssigned."
-  type        = any
-  default     = null
+  type = object({
+    type         = string
+    identity_ids = optional(list(string))
+  })
+  default = null
+
+  validation {
+    condition     = var.identity == null || contains(["SystemAssigned", "UserAssigned"], var.identity.type)
+    error_message = "identity.type must be one of: SystemAssigned, UserAssigned."
+  }
+
+  validation {
+    condition     = var.identity == null || var.identity.type != "UserAssigned" || (var.identity.identity_ids != null && length(var.identity.identity_ids) > 0)
+    error_message = "identity.identity_ids must be provided and non-empty when identity.type is UserAssigned."
+  }
 }

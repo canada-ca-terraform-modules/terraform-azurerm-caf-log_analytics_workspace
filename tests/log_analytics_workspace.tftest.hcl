@@ -112,6 +112,11 @@ run "new_optional_arguments" {
   }
 
   assert {
+    condition     = azurerm_log_analytics_workspace.log_analytics.data_collection_rule_id == "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Insights/dataCollectionRules/example"
+    error_message = "data_collection_rule_id must be settable"
+  }
+
+  assert {
     condition     = azurerm_log_analytics_workspace.log_analytics.immediate_data_purge_on_30_days_enabled == true
     error_message = "immediate_data_purge_on_30_days_enabled must be settable"
   }
@@ -194,5 +199,26 @@ run "datasource_windows_event_map" {
   assert {
     condition     = azurerm_log_analytics_datasource_windows_event.la_datasource_windows_event["app-error"].event_log_name == "Application"
     error_message = "event_log_name must be passed through"
+  }
+}
+
+run "user_assigned_identity" {
+  command = plan
+
+  variables {
+    identity = {
+      type         = "UserAssigned"
+      identity_ids = ["/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/my-id"]
+    }
+  }
+
+  assert {
+    condition     = length(azurerm_log_analytics_workspace.log_analytics.identity) == 1
+    error_message = "identity block must be emitted when UserAssigned identity is configured"
+  }
+
+  assert {
+    condition     = azurerm_log_analytics_workspace.log_analytics.identity[0].type == "UserAssigned"
+    error_message = "identity.type must be UserAssigned"
   }
 }
