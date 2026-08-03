@@ -61,9 +61,20 @@ map-based (`for_each`) L2 blueprint pattern.
 | `reservation_capacity_in_gb_per_day` | number | Only used when `sku = "CapacityReservation"` |
 | `data_collection_rule_id` | string | ID of the Data Collection Rule to use for this workspace |
 | `immediate_data_purge_on_30_days_enabled` | bool | Remove data immediately after 30 days |
-| `identity` | object | `{ type, identity_ids }` — `identity_ids` required when `type = "UserAssigned"` |
+| `identity` | object | `{ type, identity_ids }` — `type` must be `SystemAssigned` or `UserAssigned`; `identity_ids` required and non-empty when `type = "UserAssigned"` |
 
 See [`ESLZ/log_analytics_workspace.tfvars`](ESLZ/log_analytics_workspace.tfvars) for full commented examples.
+
+> **Zero-trust callers:** `local_authentication_enabled` defaults to `null`, which lets the
+> provider apply its own default (`true` — local authentication allowed alongside Microsoft
+> Entra ID). Callers that want to require Entra ID-only authentication must explicitly set
+> `local_authentication_enabled = false`.
+
+## New outputs (azurerm >= 5.0)
+
+| Name | Description |
+|---|---|
+| `workspace_id` | The Log Analytics Workspace GUID (customer ID) — used when registering agents (MMA, AMA), configuring Data Collection Rules, or cross-referencing solutions, without unwrapping the sensitive `object` output |
 
 ## Testing
 
