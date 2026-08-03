@@ -14,12 +14,33 @@ locals {
 }
 
 resource "azurerm_log_analytics_workspace" "log_analytics" {
-  name                = local.log_analytics_workspace-result
+  name                = var.custom_name != null ? var.custom_name : local.log_analytics_workspace-result
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   sku                 = var.sku
   tags                = local.tags
   retention_in_days   = var.retention_in_days != "" ? var.retention_in_days : null
+
+  # New in azurerm >= 5.x — all optional, defaulting to null so the provider
+  # keeps its own defaults when they are omitted (no plan diff for existing callers).
+  local_authentication_enabled            = var.local_authentication_enabled
+  allow_resource_only_permissions         = var.allow_resource_only_permissions
+  daily_quota_gb                          = var.daily_quota_gb
+  cmk_for_query_forced                    = var.cmk_for_query_forced
+  internet_ingestion_access_type          = var.internet_ingestion_access_type
+  internet_query_access_type              = var.internet_query_access_type
+  reservation_capacity_in_gb_per_day      = var.reservation_capacity_in_gb_per_day
+  data_collection_rule_id                 = var.data_collection_rule_id
+  immediate_data_purge_on_30_days_enabled = var.immediate_data_purge_on_30_days_enabled
+
+  dynamic "identity" {
+    for_each = var.identity != null ? [var.identity] : []
+
+    content {
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
+    }
+  }
 }
 
 resource "azurerm_log_analytics_solution" "la_solution" {
