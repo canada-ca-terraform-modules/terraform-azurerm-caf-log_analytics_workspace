@@ -125,7 +125,7 @@ No modules.
 | <a name="input_data_collection_rule_id"></a> [data\_collection\_rule\_id](#input\_data\_collection\_rule\_id) | (Optional, azurerm >= 5.x) The ID of the Data Collection Rule to use for this workspace. | `string` | `null` | no |
 | <a name="input_datasource_windows_event_map"></a> [datasource\_windows\_event\_map](#input\_datasource\_windows\_event\_map) | (Optional) Map structure containing the list of windows datasource events to be enabled. | `map(any)` | `{}` | no |
 | <a name="input_env"></a> [env](#input\_env) | (Required) env value | `string` | `""` | no |
-| <a name="input_identity"></a> [identity](#input\_identity) | (Optional, azurerm >= 5.x) An identity block object with a type key (SystemAssigned or UserAssigned) and an optional identity\_ids list, required when type is UserAssigned. | `any` | `null` | no |
+| <a name="input_identity"></a> [identity](#input\_identity) | (Optional, azurerm >= 5.x) An identity block object with a type key (SystemAssigned or UserAssigned) and an optional identity\_ids list, required when type is UserAssigned. | <pre>object({<br/>    type         = string<br/>    identity_ids = optional(list(string))<br/>  })</pre> | `null` | no |
 | <a name="input_immediate_data_purge_on_30_days_enabled"></a> [immediate\_data\_purge\_on\_30\_days\_enabled](#input\_immediate\_data\_purge\_on\_30\_days\_enabled) | (Optional, azurerm >= 5.x) Whether to remove the data in the workspace immediately after 30 days. | `bool` | `null` | no |
 | <a name="input_internet_ingestion_access_type"></a> [internet\_ingestion\_access\_type](#input\_internet\_ingestion\_access\_type) | (Optional, azurerm >= 5.x) Controls public network access for ingestion into the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted. | `string` | `null` | no |
 | <a name="input_internet_query_access_type"></a> [internet\_query\_access\_type](#input\_internet\_query\_access\_type) | (Optional, azurerm >= 5.x) Controls public network access for querying the workspace. Possible values are Enabled, Disabled, and SecuredByPerimeter. Defaults to Enabled (provider default) when omitted. | `string` | `null` | no |
@@ -145,5 +145,6 @@ No modules.
 | <a name="output_id"></a> [id](#output\_id) | Output the object ID |
 | <a name="output_name"></a> [name](#output\_name) | Output the object name |
 | <a name="output_object"></a> [object](#output\_object) | Output the full object |
+| <a name="output_workspace_id"></a> [workspace\_id](#output\_workspace\_id) | Output the Log Analytics Workspace GUID (customer ID, used when configuring agents and data sources) |
 <!-- END_TF_DOCS -->
 
