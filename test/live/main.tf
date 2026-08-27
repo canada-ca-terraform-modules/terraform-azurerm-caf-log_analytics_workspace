@@ -36,3 +36,5 @@ module "log_analytics_workspace" {
   resource_group    = local.resource_group # from test_dependencies.tf
   tags              = var.tags
 }
+
+# live-test workflow trigger
